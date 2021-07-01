@@ -1,7 +1,8 @@
 <?php 
 session_start();
+error_reporting(0);
 // require '../config/auth.php';
-print_r($_SESSION);
+// print_r($_SESSION);
 // $auth = new Auth();
 // if (!$auth->isLoggedIn()) {
 //   header("Location: auth/login.php");

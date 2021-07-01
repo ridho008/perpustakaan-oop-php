@@ -7,7 +7,7 @@ class Database{
    public $koneksi;
  
    function __construct(){
-      session_start();
+      // session_start();
       $this->koneksi = new mysqli($this->host, $this->username, $this->password,$this->database);
       if($this->koneksi){
          // echo "Koneksi database MySQL dan PHP Berhasil";

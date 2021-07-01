@@ -1,5 +1,6 @@
 <?php 
 require 'config/buku.php';
+error_reporting(0);
 $buku = new buku();
 $idUser = $_SESSION['id'];
 $anggota = $buku->getJoinByIdMemberUser($idUser);
