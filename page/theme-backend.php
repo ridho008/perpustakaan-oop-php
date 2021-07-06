@@ -1,6 +1,6 @@
 <?php 
 session_start();
-error_reporting(0);
+// error_reporting(0);
 // require '../config/auth.php';
 // print_r($_SESSION);
 // $auth = new Auth();
@@ -60,7 +60,7 @@ error_reporting(0);
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="?page=peminjaman">
                   <span data-feather="users"></span>
                   Peminjam Buku
                 </a>
@@ -104,7 +104,7 @@ error_reporting(0);
             
             if (isset($_GET["page"])) {
               if ($_GET['page'] == 'buku') {
-                if ($_GET['act'] == '') {
+                if (isset($_GET['act']) == '') {
                   require 'backend/buku/buku.php';
                 } elseif ($_GET['act'] == 'tambah') {
                   require 'backend/buku/tambah-buku.php';
@@ -114,7 +114,7 @@ error_reporting(0);
                   require 'backend/buku/hapus-buku.php';
                 }
               } elseif ($_GET['page'] == 'pengguna') {
-                if ($_GET['act'] == '') {
+                if (isset($_GET['act']) == '') {
                   require 'backend/pengguna/pengguna.php';
                 } elseif ($_GET['act'] == 'tambah') {
                   require 'backend/pengguna/tambah-pengguna.php';
@@ -124,7 +124,7 @@ error_reporting(0);
                   require 'backend/pengguna/hapus-pengguna.php';
                 }
               } elseif ($_GET['page'] == 'anggota') {
-                if ($_GET['act'] == '') {
+                if (isset($_GET['act']) == '') {
                   require 'backend/anggota/anggota.php';
                 } elseif ($_GET['act'] == 'tambah') {
                   require 'backend/anggota/tambah-anggota.php';
@@ -140,6 +140,16 @@ error_reporting(0);
               } elseif ($_GET['page'] == 'pinjam-user') {
                 if ($_GET['act'] == '') {
                   require 'backend/peminjaman-buku/index.php';
+                }
+              } elseif ($_GET['page'] == 'peminjaman') {
+                if (isset($_GET['act']) == '') {
+                  require 'backend/peminjaman/index.php';
+                } elseif ($_GET['act'] == 'daftar_buku') {
+                  require 'backend/peminjaman/proses-daftar-buku.php';
+                } elseif ($_GET['act'] == 'setujui') {
+                  require 'backend/peminjaman/setujui-buku.php';
+                } elseif ($_GET['act'] == 'delete') {
+                  require 'backend/peminjaman/hapus-detail_pinjaman-buku.php';
                 }
               }
             } else {
@@ -163,5 +173,6 @@ error_reporting(0);
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/myscript.js"></script>
   </body>
 </html>

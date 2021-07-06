@@ -2,7 +2,8 @@
 $id_buku = $_GET['id'];
 // memasukan data buku menjadi session
 $row = $buku->cekSaja($id_buku, $idUser);
-header("Location: ?page=cart");
+echo "<script>window.location='?page=cart';</script>";
+// header("Location: ?page=cart");
 // var_dump($row);
 
 // $id_buku = $_GET['id'];

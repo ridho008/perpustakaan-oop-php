@@ -160,7 +160,7 @@ class Buku extends Database
       $cekPeminjaman = $this->koneksi->query("SELECT id_anggota FROM peminjaman WHERE id_anggota = '$id_user'") or die(mysqli_error($this->koneksi));
       $result = $cekPeminjaman->num_rows;
       if($result == 0) {
-         $sql = $this->koneksi->query("INSERT INTO peminjaman (id_anggota, tgl_transaksi) VALUES ('$id_user', '$tgl_transaksi')") or die(mysqli_error($this->koneksi));
+         $sql = $this->koneksi->query("INSERT INTO peminjaman (id_anggota, tgl_transaksi, status) VALUES ('$id_user', '$tgl_transaksi', '0')") or die(mysqli_error($this->koneksi));
 
          if($sql) {
             $current_id_peminjaman = $this->koneksi->insert_id;
@@ -214,5 +214,38 @@ class Buku extends Database
          $this->koneksi->query("INSERT INTO peminjaman VALUES (null, '$id_anggota', '$id_buku')") or die(mysqli_error($this->koneksi));
          echo "berhasil";
       }
+   }
+
+   // Pembelian
+   public function getPeminjamanBukuByUser($id_user)
+   {
+      $sql = $this->koneksi->query("
+         SELECT * FROM detail_pinjaman 
+         INNER JOIN peminjaman ON detail_pinjaman.id_anggota = peminjaman.id_anggota
+         INNER JOIN buku ON detail_pinjaman.id_buku = buku.id_buku
+         WHERE detail_pinjaman.id_anggota = '$id_user'") or die(mysqli_error($this->koneksi));
+
+      while ($row = $sql->fetch_assoc()) {
+         $data[] = $row;
+      }
+
+      return (!empty($data) ? $data : '');
+   }
+
+   public function konfirmasiSemuaBuku($id_peminjaman)
+   {
+      $pembelian = $this->koneksi->query("UPDATE peminjaman SET status = '2' WHERE id_peminjaman = '$id_peminjaman'") or die(mysqli_error($this->koneksi));
+      if($pembelian) {
+         echo "<script>alert('Terima Kasih Sudah Mengkonfirmasi Kepada kami.');window.location='?page=pembelian';</script>";
+      } else {
+         echo "<script>alert('Gagal Konfirmasi.');window.location='?page=pembelian';</script>";
+      }
+   }
+   // ?page=pembelian&act=konfirmasi&id=1
+
+   public function getPeminjamanByIdUser($id_user)
+   {
+      $query = $this->koneksi->query("SELECT id_anggota, status FROM peminjaman WHERE id_anggota = '$id_user'");
+      return $query->fetch_assoc();
    }
 }

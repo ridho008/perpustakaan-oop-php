@@ -6,7 +6,7 @@ if(isset($_POST['simpan'])) {
    $buku->insertPeminjaman($_POST, $idUser);
 }
 ?>
-<?php if (!$_SESSION['cart']) : ?>
+<?php if (empty($_SESSION['cart'])) : ?>
    <?php echo "<script>alert('Keranjang peminjaman anda kosong.');window.location='index.php';</script>"; ?>
 <?php else: ?>
    <div class="container">

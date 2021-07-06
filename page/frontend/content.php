@@ -5,7 +5,7 @@
    <h1>Pinjam Buku ?</h1>
    <p class="lead text-muted">Website kami menyediakan jasa untuk meminjamkan buku secara gratis. anda dapat melakukan transaksi untuk mendapatkan buku yang anda inginkan.</p>
    <p>
-    <?php if($_SESSION['id']) : ?>
+    <?php if(!empty($_SESSION['id'])) : ?>
      <a href="page/theme-backend.php" class="btn btn-primary my-2">Dashboard</a>
      <a href="./page/auth/logout.php" class="btn btn-secondary" onclick="return confirm('Keluar Akun ?')">Logout</a>
    <?php else: ?>
@@ -28,11 +28,15 @@
            <h5 class="card-title"><?= $b['judul'] ?></h5>
            <div class="d-flex justify-content-between align-items-center">
              <div class="btn-group">
-              <?php if(empty($anggota['tgl_lahir']) || empty($anggota['alamat']) || empty($anggota['jk']) || empty($anggota['no_hp'])) : ?>
-               <a href="page/theme-backend.php?page=data-diri" class="btn btn-sm btn-outline-primary">Pinjam</a>
-             <?php else: ?>
-               <a href="?page=cart_proses&id=<?= $b['id_buku'] ?>" class="btn btn-sm btn-outline-primary">Pinjam</a>
-             <?php endif; ?>
+              <?php if(!empty($_SESSION['id'])) : ?>
+                 <?php if(empty($anggota['tgl_lahir']) || empty($anggota['alamat']) || empty($anggota['jk']) || empty($anggota['no_hp'])) : ?>
+                  <a href="page/theme-backend.php?page=data-diri" class="btn btn-sm btn-outline-primary">Pinjam</a>
+                <?php else: ?>
+                  <a href="?page=cart_proses&id=<?= $b['id_buku'] ?>" class="btn btn-sm btn-outline-primary">Pinjam</a>
+                <?php endif; ?>
+                <?php else: ?>
+                  <a href="page/auth/login.php" class="btn btn-sm btn-outline-primary">Pinjam</a>
+              <?php endif; ?>
              </div>
              <!-- <small class="text-muted">9 mins</small> -->
            </div>
