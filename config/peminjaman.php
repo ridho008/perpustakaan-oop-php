@@ -20,9 +20,7 @@ class Peminjaman extends Database
    {
       $sql = $this->koneksi->query("
          SELECT * FROM peminjaman 
-         INNER JOIN detail_pinjaman ON peminjaman.id_anggota = detail_pinjaman.id_anggota
-         INNER JOIN user ON peminjaman.id_anggota = user.id_user
-         ORDER BY detail_pinjaman.tgl_pinjam, detail_pinjaman.tgl_kembali ASC
+         INNER JOIN user ON peminjaman.id_anggota = user.id_user;  
          ") or die(mysqli_error($this->koneksi));
 
       while ($row = $sql->fetch_assoc()) {

@@ -23,7 +23,7 @@ session_start();
   </head>
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Perpustakaan OOPHP</a>
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="../">Perpustakaan OOPHP</a>
       <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -80,12 +80,12 @@ session_start();
                   Data Diri
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="<?= ($_SESSION['level'] == 1 ? '?page=pinjam-user' : '') ?>">
                   <span data-feather="users"></span>
                   Peminjam Buku
                 </a>
-              </li>
+              </li> -->
             <?php endif; ?>
             </ul>
 
@@ -134,7 +134,7 @@ session_start();
                   require 'backend/anggota/hapus-anggota.php';
                 }
               } elseif ($_GET['page'] == 'data-diri') {
-                if ($_GET['act'] == '') {
+                if (isset($_GET['act']) == '') {
                   require 'backend/profile/index.php';
                 }
               } elseif ($_GET['page'] == 'pinjam-user') {

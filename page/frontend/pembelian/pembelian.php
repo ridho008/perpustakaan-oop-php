@@ -53,6 +53,14 @@ $status = $buku->getPeminjamanByIdUser($idUser)
             </table>
          </div>
       </div>
+      <div class="col-md-4">
+         <div class="alert alert-info">
+            <h4>Pemberitahuan</h4>
+             * Waktu peminjaman buku hanya 10 hari<br/>
+             * Set waktu > 10 hari sebelum tanggal sekarang<br/>
+             * Denda keterlambatan 1000/hari<br/>
+           </div>
+      </div>
    </div>
 <?php else : ?>
    <div class="alert alert-info">Silahkan lakukan transaksi peminjaman buku terlebih dahulu!.</div>

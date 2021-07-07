@@ -157,17 +157,20 @@ class Buku extends Database
    public function insertPeminjaman($data, $id_user)
    {
       $tgl_transaksi = date('Y-m-d');
+      $tgl_pinjam = $data['tgl_pinjam'];
+      // $tgl_kembali = $data['tgl_kembali'];
+      // $tgl_pinjam = $_POST['tgl_pinjam'];
+      $tgl_kembali = strtotime("+10 day", strtotime($tgl_pinjam)); // +7 hari dari tgl peminjaman
+      $tgl_kembali = date('Y-m-d', $tgl_kembali); // format tgl peminjaman tahun-bulan-hari
       $cekPeminjaman = $this->koneksi->query("SELECT id_anggota FROM peminjaman WHERE id_anggota = '$id_user'") or die(mysqli_error($this->koneksi));
       $result = $cekPeminjaman->num_rows;
       if($result == 0) {
-         $sql = $this->koneksi->query("INSERT INTO peminjaman (id_anggota, tgl_transaksi, status) VALUES ('$id_user', '$tgl_transaksi', '0')") or die(mysqli_error($this->koneksi));
+         $sql = $this->koneksi->query("INSERT INTO peminjaman (id_anggota, tgl_transaksi, status, tgl_pinjam, tgl_kembali) VALUES ('$id_user', '$tgl_transaksi', '0', '$tgl_pinjam', '$tgl_kembali')") or die(mysqli_error($this->koneksi));
 
          if($sql) {
             $current_id_peminjaman = $this->koneksi->insert_id;
             foreach($_SESSION['cart'] as $cart => $val) {
-               $tgl_pinjam = $data['tgl_pinjam'];
-               $tgl_kembali = $data['tgl_kembali'];
-               $this->koneksi->query("INSERT INTO detail_pinjaman (id_peminjaman, id_anggota, id_buku, tgl_pinjam, tgl_kembali) VALUES ('$current_id_peminjaman', '$id_user', '$cart', '$tgl_pinjam', '$tgl_kembali')") or die(mysqli_error($this->koneksi));
+               $this->koneksi->query("INSERT INTO detail_pinjaman (id_peminjaman, id_anggota, id_buku) VALUES ('$current_id_peminjaman', '$id_user', '$cart')") or die(mysqli_error($this->koneksi));
             }
             echo "<script>alert('Berhasil transaksi peminjaman buku.');window.location='index.php';</script>";
             // menghapus smua isi keranjang

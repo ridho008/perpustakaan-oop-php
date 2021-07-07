@@ -39,7 +39,7 @@ class Auth extends Database
          if($row['level'] == 0) {
             header("Location: ../theme-backend.php");
          } else {
-            header("Location: ../theme-backend.php");
+            header("Location: ../../");
          }
       } else {
          echo "<script>alert('Username/Password Salah!');window.location='login.php';</script>";

@@ -7,6 +7,7 @@ $statusNull = $db->getPeminjamanGetByStatus(0);
 $statusSudahDikembalikan = $db->getPeminjamanGetByStatus(2);
 $daftarBukuByUser = $db->getDaftarBukuByUser(0);
 $getAllPeminjamanUser = $db->getAllPeminjamanUser();
+// $denda = $db->denda();
 
 ?>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -91,7 +92,7 @@ $getAllPeminjamanUser = $db->getAllPeminjamanUser();
           <tr>
             <td><?= $no++; ?></td>
             <td><?= $ss['nama']; ?></td>
-            <td></td>
+            <td><?= date('d-m-Y', strtotime($ss['tgl_kembali'])); ?></td>
             <td>
               <a href="?page=peminjaman&act=delete&id=<?= $ss['id_peminjaman']; ?>" class="btn btn-danger" onclick="return confirm('Setelah mengembalikan buku, admin wajib menghapus data transaksi pengguna.')">Hapus Transaksi ?</a>
             </td>
@@ -116,19 +117,56 @@ $getAllPeminjamanUser = $db->getAllPeminjamanUser();
             <th>Tanggal Pinjam</th>
             <th>Tanggal Kembali</th>
             <th>Tanggal Transaksi</th>
+            <th>Terlambat (Hari)</th>
+            <th>Total Denda</th>
           </tr>
         </thead>
         <tbody>
-          <?php $no = 1; foreach($getAllPeminjamanUser as $ga) : ?>
+          <?php if(!empty($getAllPeminjamanUser)) : ?>
+          <?php $totalDenda = 0; $no = 1; foreach($getAllPeminjamanUser as $ga) : ?>
+          <?php 
+          $cari_hari =  strtotime($ga['tgl_kembali']) - abs(strtotime($ga['tgl_pinjam']));
+          $tgl_sekarang = strtotime(date('Y-m-d')) - abs(strtotime($ga['tgl_kembali']));
+          // jumlah_hari = total tanggal sekarang, dibandingkan tgl_kembali
+          $jumlah_hari = floor(abs($tgl_sekarang)/(60*60*24));
+          $hitung_hari = floor($cari_hari/(60*60*24));
+          // var_dump($jumlah_hari);
+          // var_dump($hitung_hari);
+          echo "<br>";
+          if($hitung_hari > $jumlah_hari){
+              // $telat = $hitung_hari - 10;
+              $telat = $hitung_hari;
+              // $telat = $hitung_hari;
+              $denda = 1000 * $hitung_hari;
+              // var_dump($hitung_hari);
+              // echo $denda;
+              // echo $telat;
+              // var_dump(floor($telat));
+          }else{
+              $telat = 0; 
+              $denda = 0;
+          }
+          $totalDenda += $denda;
+          ?>
             <tr>
               <td><?= $no++; ?></td>
-              <td><?= $ga['id_peminjaman']; ?></td>
               <td><?= $ga['nama']; ?></td>
-              <td><?= $ga['tgl_pinjam']; ?></td>
-              <td><?= $ga['tgl_kembali']; ?></td>
-              <td><?= $ga['tgl_transaksi']; ?></td>
+              <td><?= date('d-m-Y', strtotime($ga['tgl_pinjam'])); ?></td>
+              <td><?= date('d-m-Y', strtotime($ga['tgl_kembali'])); ?></td>
+              <td><?= date('d-m-Y', strtotime($ga['tgl_transaksi'])); ?></td>
+              <td><?= $telat; ?></td>
+              <td>Rp.<?= number_format($denda, 0,',','.'); ?></td>
             </tr>
           <?php endforeach; ?>
+          <tfoot>
+            <tr>
+              <td colspan="6" align="center"><strong>Total Denda</strong></td>
+              <td>Rp.<?= number_format($totalDenda, 0,',','.'); ?></td>
+            </tr>
+          </tfoot>
+            <?php else: ?>
+              <div class="alert alert-info" role="alert"><strong>Belum Ada Transaksi</strong>, Yang Dilakukan.</div>
+          <?php endif; ?>
         </tbody>
       </table>
     </div>

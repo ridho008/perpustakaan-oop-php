@@ -50,6 +50,7 @@ if(isset($_POST['masuk'])) {
                        <div class="form-group">
                            <button class="btn btn-primary btn-block" name="masuk" type="submit">Masuk</button>
                            <a href="register.php" class="btn btn-secondary btn-block">Daftar</a>
+                           <a href="../../" class="btn btn-secondary btn-success btn-block">Website</a>
                        </div>
                     </form>
                  </div>
