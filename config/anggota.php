@@ -25,7 +25,7 @@ class Anggota extends Database
 
    function getByIdMember($id_anggota)
    {
-      $query = mysqli_query($this->koneksi,"SELECT * FROM anggota WHERE id_anggota = '$id_anggota'");
+      $query = mysqli_query($this->koneksi,"SELECT * FROM anggota INNER JOIN user ON anggota.id_user = user.id_user WHERE id_anggota = '$id_anggota'");
       return $query->fetch_assoc();
    }
 

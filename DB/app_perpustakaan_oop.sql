@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 30, 2021 at 04:07 PM
+-- Generation Time: Jul 07, 2021 at 12:26 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -44,7 +44,7 @@ INSERT INTO `anggota` (`id_anggota`, `id_user`, `tgl_lahir`, `alamat`, `jk`, `no
 (4, 2, NULL, NULL, NULL, NULL),
 (5, 7, NULL, NULL, NULL, NULL),
 (6, 8, '2021-06-29', 'lorem lagi', 'L', '08343'),
-(7, 9, '2021-06-30', 'pepaya', 'L', '08127364');
+(7, 9, '2021-06-30', 'Jl.Pepaya', 'L', '08127364');
 
 -- --------------------------------------------------------
 
@@ -83,10 +83,18 @@ CREATE TABLE `detail_pinjaman` (
   `id_detail` int(11) NOT NULL,
   `id_peminjaman` int(11) DEFAULT NULL,
   `id_anggota` int(11) DEFAULT NULL,
-  `id_buku` int(11) DEFAULT NULL,
-  `tgl_pinjam` date DEFAULT NULL,
-  `tgl_kembali` date DEFAULT NULL
+  `id_buku` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detail_pinjaman`
+--
+
+INSERT INTO `detail_pinjaman` (`id_detail`, `id_peminjaman`, `id_anggota`, `id_buku`) VALUES
+(1, 1, 8, 3),
+(2, 1, 8, 6),
+(3, 2, 9, 5),
+(4, 2, 9, 6);
 
 -- --------------------------------------------------------
 
@@ -97,9 +105,19 @@ CREATE TABLE `detail_pinjaman` (
 CREATE TABLE `peminjaman` (
   `id_peminjaman` int(11) NOT NULL,
   `id_anggota` int(11) DEFAULT NULL,
-  `id_buku` int(11) DEFAULT NULL,
-  `tgl_transaksi` date NOT NULL
+  `tgl_transaksi` date NOT NULL,
+  `status` int(1) NOT NULL DEFAULT 0,
+  `tgl_pinjam` date NOT NULL,
+  `tgl_kembali` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `peminjaman`
+--
+
+INSERT INTO `peminjaman` (`id_peminjaman`, `id_anggota`, `tgl_transaksi`, `status`, `tgl_pinjam`, `tgl_kembali`) VALUES
+(1, 8, '2021-07-06', 0, '2021-07-01', '2021-07-05'),
+(2, 9, '2021-07-07', 0, '2021-07-07', '2021-07-17');
 
 -- --------------------------------------------------------
 
@@ -121,9 +139,6 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id_user`, `nama`, `username`, `password`, `level`) VALUES
 (4, 'Administrator', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0),
-(5, 'l', 'l', '2db95e8e1a9267b7a1188556b2013b33', 1),
-(6, 'a', 'a', '0cc175b9c0f1b6a831c399e269772661', 1),
-(7, 'k', 'k', '8ce4b16b22b58894aa86c421e8759df3', 1),
 (8, 'Harun Saputra', 'harun', '6a144723835bf8d2ca3241a6535d3cff', 1),
 (9, 'Surya', 'surya', 'aff8fbcbf1363cd7edc85a1e11391173', 1);
 
@@ -175,25 +190,25 @@ ALTER TABLE `anggota`
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `detail_pinjaman`
 --
 ALTER TABLE `detail_pinjaman`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

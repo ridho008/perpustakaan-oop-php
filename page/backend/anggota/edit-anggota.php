@@ -46,8 +46,8 @@ if(isset($_POST['edit'])) {
             <label for="jk">Jenis Kelamin</label>
             <select name="jk" id="jk" class="form-control">
                <option value="">-- Pilih Kelamin --</option>
-               <option value="L" <?= ($user['jk'] === 'L' ? 'selected' : '') ?>>Pria</option>
-               <option value="P" <?= ($user['jk'] === 'P' ? 'selected' : '') ?>>Wanita</option>
+               <option value="L" <?= ($anggota['jk'] === 'L' ? 'selected' : '') ?>>Pria</option>
+               <option value="P" <?= ($anggota['jk'] === 'P' ? 'selected' : '') ?>>Wanita</option>
             </select>
          </div>
          <div class="form-group">
