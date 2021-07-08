@@ -19,8 +19,23 @@ class Pengguna extends Database
       $password = htmlspecialchars(md5($data["password"]));
       $level = htmlspecialchars($data["level"]);
 
-      $this->koneksi->query("INSERT INTO user VALUES (null, '$nama', '$username', '$password', '$level') ") or die(mysqli_error($this->koneksi));
-      return $this->koneksi->affected_rows;
+      if ($level != 0) {
+         $sql = $this->koneksi->query("INSERT INTO user VALUES (null, '$nama', '$username', '$password', '$level') ") or die(mysqli_error($this->koneksi));
+
+         if($sql) {
+            // insert_id = mengambil id terakhir tb user, saat menambahkan data
+            $last_id = $this->koneksi->insert_id;
+            $this->koneksi->query("INSERT INTO anggota VALUES (null, '$last_id', null, null, null, null)");
+            return $this->koneksi->affected_rows;
+         } else {
+            echo $this->koneksi->error;
+         }
+      } else {
+         $this->koneksi->query("INSERT INTO user VALUES (null, '$nama', '$username', '$password', '$level') ") or die(mysqli_error($this->koneksi));
+         return $this->koneksi->affected_rows;
+      }
+      
+
    }
 
    function getByIdUser($id_user)
